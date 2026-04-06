@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2eb;
+    --cream: #f0ead8;
+    --lime: #c8f54a;
+    --lime-dim: #a8d930;
+    --gray: #1c1c1c;
+    --gray2: #2e2e2e;
+    --muted: #888;
+    --text: #d8d2c4;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .logo {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .logo span { color: var(--lime); }
+
+  .nav-cta {
+    border-radius: 999px;
+    box-shadow: 0 6px 20px rgba(200,245,74,0.2);
+
+    background: var(--lime);
+    color: var(--black);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--lime-dim); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    padding: 140px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(200,245,74,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(200,245,74,0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,245,74,0.1);
+    border: 1px solid rgba(200,245,74,0.25);
+    color: var(--lime);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    margin-bottom: 32px;
+    width: fit-content;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.1s forwards;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--lime);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .hero h1 {
+    margin: 0 auto;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    max-width: 800px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.2s forwards;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--lime);
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-sub {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 480px;
+    margin-top: 24px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.35s forwards;
+  }
+
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+
+  .hero-form {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    gap: 0;
+    margin-top: 40px;
+    max-width: 440px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.5s forwards;
+  }
+
+  .hero-form input {
+    border-radius: 999px 0 0 999px;
+
+    flex: 1;
+    background: var(--gray);
+    border: 1px solid var(--gray2);
+    border-right: none;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .hero-form input::placeholder { color: #555; }
+  .hero-form input:focus { border-color: rgba(200,245,74,0.4); }
+
+  .hero-form button {
+    border-radius: 999px;
+
+    background: var(--lime);
+    color: var(--black);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    padding: 14px 24px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .hero-form button:hover { background: var(--lime-dim); }
+
+  .hero-proof {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.65s forwards;
+  }
+
+  .avatars {
+    display: flex;
+  }
+
+  .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--black);
+    margin-left: -8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black);
+  }
+
+  .avatar:first-child { margin-left: 0; }
+  .av1 { background: #c8f54a; }
+  .av2 { background: #7dd4fc; }
+  .av3 { background: #f9a8d4; }
+  .av4 { background: #fcd34d; }
+
+  .proof-text {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .proof-text strong { color: var(--lime); font-weight: 600; }
+
+  /* TICKER */
+  .ticker {
+    background: var(--lime);
+    color: var(--black);
+    padding: 12px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    animation: scroll 20s linear infinite;
+    gap: 0;
+  }
+
+  .ticker-item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ticker-sep { opacity: 0.4; font-size: 1.2rem; }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* SECTIONS */
+  section { padding: 100px 40px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 16px;
+  }
+
+  /* PROBLEM */
+  .problem {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .problem-text h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.03em;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .problem-text p {
+    color: var(--muted);
+    font-weight: 300;
+    font-size: 1.0rem;
+    line-height: 1.75;
+  }
+
+  .pain-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pain-card {
+    border-radius: 12px;
+
+    background: var(--gray);
+    border: 1px solid var(--gray2);
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: border-color 0.2s;
+  }
+
+  .pain-card:hover { border-color: rgba(200,245,74,0.3); }
+
+  .pain-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .pain-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .pain-card strong { color: var(--text); display: block; margin-bottom: 2px; font-size: 0.92rem; }
+
+  /* WHAT YOU GET */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    max-width: 1100px;
+    margin: 40px auto 0;
+  }
+
+  .feature-card {
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+    background: var(--gray);
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+
+  .feature-card:hover { background: var(--gray2); }
+
+  .feature-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: rgba(200,245,74,0.08);
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: -0.05em;
+  }
+
+  .feature-icon {
+    font-size: 1.5rem;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .feature-card h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .feature-card p {
+    font-size: 0.87rem;
+    color: var(--muted);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .feature-tag {
+    display: inline-block;
+    background: rgba(200,245,74,0.1);
+    color: var(--lime);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    margin-top: 16px;
+  }
+
+  /* CENTER HEADING */
+  .center-head {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .center-head h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.03em;
+    color: var(--white);
+    line-height: 1.1;
+  }
+
+  .center-head p {
+    font-size: 1rem;
+    color: var(--muted);
+    margin-top: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* CASE STUDY */
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    max-width: 900px;
+    margin: 48px auto 0;
+  }
+
+  .case-card {
+    border-radius: 14px;
+
+    background: var(--gray);
+    padding: 32px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .case-card:hover { border-left-color: var(--lime); background: var(--gray2); }
+
+  .case-card blockquote {
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  .case-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .case-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+
+  .case-info strong {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--white);
+    display: block;
+  }
+
+  .case-info span {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .case-result {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: rgba(200,245,74,0.12);
+    color: var(--lime);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+
+  /* COMPARISON */
+  .compare-table {
+    max-width: 800px;
+    margin: 48px auto 0;
+    border: 1px solid var(--gray2);
+    overflow: hidden;
+  }
+
+  .compare-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    background: var(--gray);
+    padding: 14px 24px;
+    gap: 12px;
+  }
+
+  .compare-header span {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .compare-header span:first-child { text-align: left; }
+  .compare-header .hl { color: var(--lime); }
+
+  .compare-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 14px 24px;
+    gap: 12px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    align-items: center;
+    transition: background 0.15s;
+  }
+
+  .compare-row:hover { background: rgba(255,255,255,0.02); }
+
+  .compare-row .feature-name {
+    font-size: 0.88rem;
+    color: var(--text);
+  }
+
+  .check-cell {
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .yes { color: var(--lime); }
+  .no { color: #555; font-size: 0.9rem; }
+
+  /* CTA SECTION */
+  .cta-section {
+    background: var(--gray);
+    text-align: center;
+    padding: 100px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(200,245,74,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .cta-section h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    letter-spacing: -0.03em;
+    color: var(--white);
+    line-height: 1.05;
+    max-width: 700px;
+    margin: 16px auto 24px;
+  }
+
+  .cta-section p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 420px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .cta-form {
+    display: flex;
+    gap: 0;
+    max-width: 420px;
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  .cta-form input {
+    border-radius: 999px 0 0 999px;
+
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-right: none;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .cta-form input::placeholder { color: #555; }
+  .cta-form input:focus { border-color: rgba(200,245,74,0.4); }
+
+  .cta-form button {
+    border-radius: 999px;
+
+    background: var(--lime);
+    color: var(--black);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 14px 24px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .cta-form button:hover { background: var(--lime-dim); }
+
+  .cta-small {
+    font-size: 0.78rem;
+    color: #555;
+    margin-top: 14px;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 40px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  footer .logo { font-size: 1.1rem; }
+
+  .footer-right {
+    font-size: 0.78rem;
+    color: #444;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    max-width: 800px;
+    margin: 60px auto 0;
+    padding: 40px;
+    border: 1px solid var(--gray2);
+    background: var(--gray);
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 2.4rem;
+    color: var(--white);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-num span { color: var(--lime); }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    section { padding: 70px 20px; }
+    .problem { grid-template-columns: 1fr; gap: 40px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .case-grid { grid-template-columns: 1fr; }
+    .stats-row { gap: 40px; flex-wrap: wrap; padding: 28px; }
+    .hero-form, .cta-form { flex-direction: column; }
+    .hero-form input, .cta-form input {
+    border-radius: 999px 0 0 999px;
+ border-right: 1px solid var(--gray2); border-bottom: none; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .compare-table { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Mindset<span>Lab</span></div>
+  <button class="nav-cta" onclick="document.querySelector('.cta-section').scrollIntoView({behavior:'smooth'})">Dołącz za darmo</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-tag">Newsletter · Tygodniowe wydania · 100% praktyczne</div>
+  <h1>Wyniki,<br>nie teoria.<br><em>Działaj teraz.</em></h1>
+  <p class="hero-sub">
+    Co tydzień: <strong>mini-case rówieśnika</strong> + gotowy plan na 7 dni.<br>
+    Zero lania wody. Zero hype'u. Tylko kroki, które możesz wdrożyć <strong>dziś wieczór</strong>.
+  </p>
+  <div class="hero-form">
+    <input type="email" placeholder="twój@email.pl" id="hero-email">
+    <button onclick="handleSignup('hero-email')">Zapisz się →</button>
+  </div>
+  <div class="hero-proof">
+    <div class="avatars">
+      <div class="avatar av1">KM</div>
+      <div class="avatar av2">AW</div>
+      <div class="avatar av3">JP</div>
+      <div class="avatar av4">MK</div>
+    </div>
+    <p class="proof-text"><strong>847 uczniów</strong> już wdraża. Pierwsze wydanie — gratis.</p>
+  </div>
+</div></section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Krótko i konkretnie <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Bez lania wody <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Pierwsze zarobki w 6 miesiącach <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Case study rówieśników <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Plan na 7 dni <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Dla licealistów <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Micro-zwycięstwa <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Krótko i konkretnie <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Bez lania wody <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Pierwsze zarobki w 6 miesiącach <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Case study rówieśników <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Plan na 7 dni <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Dla licealistów <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Micro-zwycięstwa <span class="ticker-sep">·</span></span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section><div class="section-inner">
+  <div class="problem">
+    <div class="problem-text reveal">
+      <div class="section-label">Problem, który znamy</div>
+      <h2>Scrollujesz i nic<br>z tego nie robisz.</h2>
+      <p>YouTube, TikTok, kursy — mnóstwo contentu, zero systemu. Każdy mówi "zrób to", nikt nie pokazuje jak i kiedy — szczególnie gdy masz maturę za rok.</p>
+    </div>
+    <div class="pain-cards reveal">
+      <div class="pain-card">
+        <div class="pain-icon">⏳</div>
+        <div>
+          <strong>Czas się marnuje</strong>
+          <p>Godziny na research, zero konkretnych działań. Wiedza nie zamienia się w pieniądze.</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🔀</div>
+        <div>
+          <strong>Chaos zamiast systemu</strong>
+          <p>Masz 50 zakładek, notatki w Notion i wciąż nie wiesz, co zrobić jutro rano.</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">👴</div>
+        <div>
+          <strong>Treści nie dla ciebie</strong>
+          <p>„Porady dla dorosłych" z firmą i budżetem. Ty masz 17 lat i dwie wolne godziny dziennie.</p>
+        </div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">💸</div>
+        <div>
+          <strong>Zarobki wciąż na papierze</strong>
+          <p>Pomysły są. Pierwszej złotówki online nie ma. Brakuje prostego kroku "od zera".</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<div class="divider"></div>
+
+<!-- WHAT YOU GET -->
+<section><div class="section-inner">
+  <div class="center-head reveal">
+    <div class="section-label">Co dostajesz w każdym wydaniu</div>
+    <h2>Format stworzony dla licealisty, nie korporacji</h2>
+    <p>Każde wydanie MindsetLab mieści się w 15 minutach i daje ci gotowy krok do wdrożenia tego samego dnia.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-number">01</div>
+      <span class="feature-icon">📍</span>
+      <h3>Mini-case rówieśnika</h3>
+      <p>Historia kogoś w twoim wieku — z liczbami, błędami i listą kontrolną do skopiowania. Nie influencer, nie celebryta. Ktoś jak ty.</p>
+      <span class="feature-tag">Dowód społeczny</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-number">02</div>
+      <span class="feature-icon">📅</span>
+      <h3>Plan na 7 dni</h3>
+      <p>Co testujesz, jakie metryki śledzisz, kiedy pytasz o feedback. Konkretne zadania dopasowane do harmonogramu szkolnego.</p>
+      <span class="feature-tag">Gotowy do wdrożenia</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-number">03</div>
+      <span class="feature-icon">⚡</span>
+      <h3>Jedno ćwiczenie</h3>
+      <p>Nie lista 20 rzeczy do zrobienia. Jedno, konkretne działanie, które możesz uruchomić wieczorem i zobaczyć efekt w ciągu tygodnia.</p>
+      <span class="feature-tag">Max. 15 minut</span>
+    </div>
+  </div>
+  <div class="stats-row reveal">
+    <div class="stat">
+      <div class="stat-num">15<span>min</span></div>
+      <div class="stat-label">Czas czytania</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1<span>krok</span></div>
+      <div class="stat-label">Do wdrożenia dziś</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">6–12<span>mies.</span></div>
+      <div class="stat-label">Do pierwszych zarobków</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0<span>zł</span></div>
+      <div class="stat-label">Koszt startu</div>
+    </div>
+  </div>
+</div></section>
+
+<div class="divider"></div>
+
+<!-- CASE STUDIES -->
+<section><div class="section-inner">
+  <div class="center-head reveal">
+    <div class="section-label">Subskrybenci MindsetLab</div>
+    <h2>Co mówią rówieśnicy, którzy już działają</h2>
+  </div>
+  <div class="case-grid">
+    <div class="case-card reveal">
+      <div class="case-result">+2 400 zł</div>
+      <blockquote>„Po 3 wydaniach sprzedałem swój pierwszy szablon Notion. Newsletter dał mi dokładny schemat — bez tego kręciłbym się w kółko jeszcze rok."</blockquote>
+      <div class="case-meta">
+        <div class="case-avatar" style="background:#c8f54a">MK</div>
+        <div class="case-info">
+          <strong>Michał K.</strong>
+          <span>17 lat · LO Warszawa · Notion templates</span>
+        </div>
+      </div>
+    </div>
+    <div class="case-card reveal">
+      <div class="case-result">47 klientów</div>
+      <blockquote>„Przez rok czytałem poradniki i nic. Po miesiącu z MindsetLab mam konto social media z pierwszymi płacącymi klientami. Format naprawdę działa."</blockquote>
+      <div class="case-meta">
+        <div class="case-avatar" style="background:#7dd4fc">AW</div>
+        <div class="case-info">
+          <strong>Ania W.</strong>
+          <span>16 lat · Technikum Kraków · Social media</span>
+        </div>
+      </div>
+    </div>
+    <div class="case-card reveal">
+      <div class="case-result">Pierwszy klient</div>
+      <blockquote>„Zawsze myślałem, że muszę skończyć LO, żeby zacząć zarabiać. Case study w newsletter pokazał mi, że 15 lat to żaden problem — potrzebujesz tylko systemu."</blockquote>
+      <div class="case-meta">
+        <div class="case-avatar" style="background:#f9a8d4">JP</div>
+        <div class="case-info">
+          <strong>Jakub P.</strong>
+          <span>15 lat · Liceum Wrocław · Grafika freelance</span>
+        </div>
+      </div>
+    </div>
+    <div class="case-card reveal">
+      <div class="case-result">850 zł/mies.</div>
+      <blockquote>„Nie wierzyłem w newslettery — za dużo tekstu. MindsetLab to jedyny, który czytam do końca. Każde wydanie = jeden konkretny krok. Zero śmieciowego hype'u."</blockquote>
+      <div class="case-meta">
+        <div class="case-avatar" style="background:#fcd34d">TN</div>
+        <div class="case-info">
+          <strong>Tomek N.</strong>
+          <span>18 lat · Matura 2025 · Dropshipping</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<div class="divider"></div>
+
+<!-- COMPARISON -->
+<section><div class="section-inner">
+  <div class="center-head reveal">
+    <div class="section-label">Dlaczego MindsetLab</div>
+    <h2>Nie kolejny „kurs dla wszystkich"</h2>
+    <p>Porównaj sam, zanim stracisz jeszcze jeden miesiąc na nieefektywne materiały.</p>
+  </div>
+  <div class="compare-table reveal">
+    <div class="compare-header">
+      <span>Co oceniamy</span>
+      <span>YouTube / TikTok</span>
+      <span class="hl">MindsetLab ✦</span>
+    </div>
+    <div class="compare-row">
+      <span class="feature-name">Konkretny plan działania na tydzień</span>
+      <span class="check-cell no">✕</span>
+      <span class="check-cell yes">✓</span>
+    </div>
+    <div class="compare-row">
+      <span class="feature-name">Case study osoby w twoim wieku</span>
+      <span class="check-cell no">✕</span>
+      <span class="check-cell yes">✓</span>
+    </div>
+    <div class="compare-row">
+      <span class="feature-name">Format < 15 min (obok szkoły)</span>
+      <span class="check-cell no">✕</span>
+      <span class="check-cell yes">✓</span>
+    </div>
+    <div class="compare-row">
+      <span class="feature-name">Brak hype'u i clickbaitu</span>
+      <span class="check-cell no">✕</span>
+      <span class="check-cell yes">✓</span>
+    </div>
+    <div class="compare-row">
+      <span class="feature-name">Ćwiczenie do wdrożenia tego samego dnia</span>
+      <span class="check-cell no">✕</span>
+      <span class="check-cell yes">✓</span>
+    </div>
+    <div class="compare-row">
+      <span class="feature-name">Bezpłatny start</span>
+      <span class="check-cell yes">✓</span>
+      <span class="check-cell yes">✓</span>
+    </div>
+  </div>
+</div></section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="section-label">Gotowy?</div>
+  <h2>Pierwsze wydanie<br>czeka na ciebie.</h2>
+  <p>Dołącz do 847 uczniów, którzy zamieniają wiedzę w działanie. Gratis. Bez spamu. Wypis w 1 klik.</p>
+  <div class="cta-form">
+    <input type="email" placeholder="twój@email.pl" id="cta-email">
+    <button onclick="handleSignup('cta-email')">Dołącz za darmo →</button>
+  </div>
+  <p class="cta-small">✓ Bez karty  ✓ Pierwsze 2 wydania gratis  ✓ Wypis jednym klikiem</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Mindset<span>Lab</span></div>
+  <div class="footer-right">© 2025 MindsetLab · Newsletter dla młodych, którzy działają</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Staggered reveals for grids
+  document.querySelectorAll('.features-grid .feature-card, .case-grid .case-card, .pain-cards .pain-card').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.1) + 's';
+  });
+
+  // Signup handler
+  function handleSignup(inputId) {
+    const input = document.getElementById(inputId);
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) {
+      input.style.borderColor = 'rgba(255,100,100,0.5)';
+      setTimeout(() => input.style.borderColor = '', 1500);
+      return;
+    }
+    const btn = input.nextElementSibling;
+    btn.textContent = '✓ Zapisano!';
+    btn.style.background = '#4ade80';
+    input.value = '';
+    setTimeout(() => {
+      btn.textContent = 'Dołącz za darmo →';
+      btn.style.background = '';
+    }, 3000);
+  }
+</script>
+
+</body>
+</html>
